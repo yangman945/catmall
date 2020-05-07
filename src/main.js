@@ -6,8 +6,8 @@ import '@/assets/reset.css'
 import 'amfe-flexible' 
     // 按需引入vant
 import 'vant/lib/index.css'
-import {Button,Icon, Tabbar, TabbarItem  } from 'vant'
-Vue.use(Button).use(Icon).use(Tabbar).use(TabbarItem)
+import {Button,Icon, Tabbar, TabbarItem, Swipe, SwipeItem,Lazyload   } from 'vant'
+Vue.use(Button).use(Icon).use(Tabbar).use(TabbarItem).use(Swipe).use(SwipeItem).use(Lazyload)
 
 
 Vue.config.productionTip = false
