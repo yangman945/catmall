@@ -5,3 +5,17 @@ export const getSeckillList = () => {
         method: 'post',
     })
 }
+
+export const getHotgoodsList = () => {
+    return axios({
+        url:'/hotgoods/index',
+        method: 'post',
+    })
+}
+
+export const getCategoryList = () => {
+    return axios({
+        url:'/categorydata/index',
+        method: 'post',
+    })
+}
