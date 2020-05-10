@@ -285,7 +285,7 @@ header {
       width: 230px;
       height: 30px;
       margin: 0 5px;
-      border-radius: 5%;
+      border-radius: 5px;
       text-align: center;
       line-height: 30px;
       font-size: 14px;

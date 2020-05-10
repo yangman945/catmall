@@ -29,7 +29,13 @@ export default new VueRouter({
     {
       path: '/user',
       name: 'user',
-      component: () => import('@/views/user/index.vue')
+      component: () => import('@/views/user/user.vue')
+    }, 
+    // 登录
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/views/user/login.vue')
     }
   ]
 })

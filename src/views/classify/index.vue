@@ -64,7 +64,6 @@ export default {
   .search-top{
     position: fixed;
     top: 0;
-    z-index: 9;
     width: 100%;
     background-color: #fff;
     margin-bottom: 30px;
