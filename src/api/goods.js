@@ -1,4 +1,5 @@
 import axios from '@/api/common.js'
+// 秒杀商品
 export const getSeckillList = () => {
     return axios({
         url:'/seckill/index',
@@ -6,6 +7,7 @@ export const getSeckillList = () => {
     })
 }
 
+// 热销商品
 export const getHotgoodsList = () => {
     return axios({
         url:'/hotgoods/index',
@@ -13,6 +15,7 @@ export const getHotgoodsList = () => {
     })
 }
 
+// 分类列表
 export const getCategoryList = () => {
     return axios({
         url:'/categorydata/index',

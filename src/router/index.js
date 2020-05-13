@@ -36,6 +36,12 @@ export default new VueRouter({
       path: '/login',
       name: 'login',
       component: () => import('@/views/user/login.vue')
+    },
+    // 收货地址
+    {
+      path:'/address',
+      name:'address',
+      component: () => import('@/views/user/address.vue')
     }
   ]
 })
