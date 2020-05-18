@@ -11,12 +11,9 @@
             <div class="name">
               <span>{{v.name}}</span>
               <span>{{v.tel}}</span>
-              <div v-show="v.isDefault">默认</div>
             </div>
             <div class="phone">
-              <span>
-                  {{v.province}}{{v.city}}{{v.county}}{{v.addressDetaill}}
-              </span>
+              <span>{{v.province}}{{v.city}}{{v.county}}{{v.addressDetaill}}</span>
             </div>
           </div>
           <div @click="handelDelBtn(i)" class="right-del">
@@ -30,60 +27,99 @@
           <span>新建地址</span>
         </div>
       </footer>
+      <van-popup v-model="addresShow" position="bottom" :style="{ height: '100%' }">
       <div class="pop-up">
-        <van-popup :style="{ height: '100%',width: '100%' }" v-model="addresShow">
-          <van-address-edit
-            :area-list="areaList"
-            show-delete
-            show-set-default
-            show-search-result
-            :delete-button-text="'退出'"
-            :search-result="searchResult"
-            :area-columns-placeholder="['请选择', '请选择', '请选择']"
-            @save="onSave"
-            @delete="onDelete"
-          />
-        </van-popup>
+        <section class="address-content">
+          <ul class="address-list">
+            <li class="address-item">
+              <van-cell title="联系人" />
+              <div class="address-name">
+                <van-field v-model="addressItem.name" placeholder="请输入姓名" />
+              </div>
+            </li>
+            <li class="address-item">
+              <van-cell title="电话" />
+              <div class="address-name">
+                <van-field v-model="addressItem.tel" placeholder="手机号码" />
+              </div>
+            </li>
+            <li class="address-item">
+              <van-cell title="所在地区" />
+              <div class="address-name" @click="show = true">
+                <van-field v-model="address" disabled placeholder="请选择省市区" />
+              </div>
+            </li>
+            <li class="address-item">
+              <van-cell title="所在地区" />
+              <div class="address-name" @click="show = true">
+                <van-field v-model="addressItem.addressDetaill" disabled placeholder="请填写详细地址" />
+              </div>
+            </li>
+          </ul>
+        </section>
       </div>
+        <div @click="submitBtn" class="save-btn">保存</div>
+        <div class="cancel-btn">取消</div>
+      </van-popup>
+      <van-popup v-model="show" position="bottom" :style="{ height: '40%' }">
+        <van-area
+          :area-list="areaList"
+          @cancel="handleCancel"
+          @confirm="handleConfirm"
+          :columns-placeholder="value"
+          value="110101"
+        />
+      </van-popup>
     </div>
   </div>
 </template>
-
 <script>
 import myNavbar from "@/components/navbar/index.vue";
 import areaList from "@/mock/area.js";
 export default {
   data() {
     return {
+      address:'',
+      value: ['请选择', '请选择', '请选择'],
       addressList: [],
       addresShow: false,
+      show: false,
       areaList: {},
-      searchResult: []
+      addressItem: {
+        name: "杨标泓",
+        tel: "15107684016",
+        province: "",
+        city: "",
+        county: "",
+        addressDetaill: "文冲文园牛地街菜鸟驿站"
+      }
     };
   },
   created() {
     this.areaList = areaList;
   },
   methods: {
-    onSave(addItem) {
-        console.log(addItem)
-      if (addItem.isDefault) {
-        this.addressList.some(v => {
-          if (v.isDefault) {
-            return (v.isDefault = false);
-          }
-        });
-        this.addressList.unshift(addItem);
-      } else {
-        this.addressList.push(addItem);
-      }
-      this.addresShow = false;
-    },
-    onDelete() {
-      this.addresShow = false;
-    },
     handelDelBtn(i){
-        this.addressList.splice(i,1)
+      this.addressList.splice(i,1)
+    },
+    handleCancel() {
+      this.show = false;
+    },
+    handleConfirm(e) {
+      console.log(e);
+      this.addressItem.province = e[0].name;
+      this.addressItem.city = e[1].name;
+      this.addressItem.county= e[2].name;
+      this.address = `${e[0].name}-${e[1].name}-${e[2].name}`
+      // this.value[0] = e[0].code
+      // this.value[1] = e[1].code
+      // this.value[2] = e[2].code
+      
+      this.show = false;
+    },
+    submitBtn(){
+      this.addressList.push(JSON.parse(JSON.stringify(this.addressItem)))
+      this.addresShow = false
     }
   },
   components: { myNavbar }
@@ -103,7 +139,7 @@ main {
     border-bottom: 1px solid #f2f2f2;
     font-size: 16px;
     .left-text {
-        box-sizing: border-box;
+      box-sizing: border-box;
       width: 90%;
       padding-right: 15px;
       .name {
@@ -156,5 +192,25 @@ footer {
     left: 5vw;
     bottom: 3vh;
   }
+}
+.cancel-btn{
+  box-sizing: border-box;
+  margin:10px auto 0;
+  width: 80%;
+  height: 40px;
+  font-size: 16px;
+  line-height: 40px;
+  text-align: center;
+  border:1px solid #ccc;
+};
+.save-btn{
+  margin:0 auto;
+  width: 80%;
+  height: 40px;
+  font-size: 16px;
+  line-height: 40px;
+  text-align: center;
+  background-color: #dd1a21;
+  color:#fff;
 }
 </style>

@@ -18,7 +18,7 @@
             :src="props.active ? icon_classify.active : icon_classify.normal"
           />
         </van-tabbar-item>
-        <van-tabbar-item :badge="shopNum" to="/shopcart">
+        <van-tabbar-item :badge="totalCart" to="/shopcart">
             <span>购物车</span>
           <img
             slot="icon"
@@ -39,6 +39,7 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   name: "myTabbar",
   data() {
@@ -62,6 +63,14 @@ export default {
       active: 0, //当前激活tabbar
       shopNum:5, //假定商品数量
     };
+  },
+  computed:{
+    ...mapState('cart',{
+      totalCart:state => state.totalCartNum
+    })
+    // totalCart:function(){
+    //   return this.$store.state.cart.totalCartNum
+    // }
   }
 };
 </script>

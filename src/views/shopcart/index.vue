@@ -54,6 +54,7 @@
   </div>
 </template>
 <script>
+// import {mapActions} from "vuex";
 import myTabbar from "@/components/tabbar/index.vue";
 export default {
   data() {
@@ -62,10 +63,11 @@ export default {
       editSta: false, //编辑状态
       checkBox: false, //权限状态
       totalPrice: 0, //商品总价
+      totalCart:0, //购物车总数量
       // 购物车数据
       cartShopList: [
         {
-          name: "男式吸湿速干运动基础T恤daji就大家好的 我是大黄沙岭安居客附加按分类建立", //描述
+          name: "男式吸湿速干运动基础T恤daji就大家好的 我附加按分类建立", //描述
           color: "经典黑", //颜色
           type: "24码-130(2.0)，脚长13.5~14cm", //型号
           img: require("@/assets/icons/category/item1.png"), //图片
@@ -136,6 +138,7 @@ export default {
   mounted() {
     this.checkBtn()
     this.totalPriceFn()
+      this.changeCartFn()
     this.changePassFn()
   },
   methods:{
@@ -145,6 +148,7 @@ export default {
         return v.sign === true
       })
       this.totalPriceFn()
+      this.changeCartFn()
     },
     // 单项按钮改变
     handleChangeBtn(){
@@ -164,13 +168,13 @@ export default {
     },
     // 商品加减
     handleShopComponentFn(result,item,index){
-      console.log(index)
       if(result){
        if(item.num >= 99){
            this.$toast('达到单次添加上限')
        }else{
          this.cartShopList[index].num++
          this.totalPriceFn()
+      this.changeCartFn()
        }
       }else{
         if(item.num <= 1){
@@ -178,6 +182,7 @@ export default {
         }else{
           this.cartShopList[index].num--
           this.totalPriceFn()
+      this.changeCartFn()
         }
       }
 
@@ -186,12 +191,21 @@ export default {
     totalPriceFn(){
       // eslint-disable-next-line no-unused-vars
       let totalPrice = 0
+      let totalCart = 0
       this.cartShopList.forEach(v=>{
         if(v.sign){
           totalPrice += v.num * v.price
+          totalCart += v.num 
+          console.log(v.num,'num')
+          console.log(totalCart,'数量')
         }
       })
       this.totalPrice = totalPrice
+      this.totalCart = totalCart
+    },
+    changeCartFn(){
+      console.log(this.totalCart,"lalallala")
+      this.$store.dispatch('cart/changeTotalCart',this.totalCart)
     },
     // 编辑事件
     handleExitFn(){
